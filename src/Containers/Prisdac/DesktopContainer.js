@@ -20,7 +20,8 @@ import LoginActions, { LoginSelectors } from '../Login/redux'
 import HomepageHeading from '../../Components/HomepageHeading'
 import LoggedInAttribute from '../LoggedinAttribute'
 import Carousel1 from '../../Components/Carousel/carousel1'
-import {Images} from '../../Themes'
+import Slideshow from '../../Containers/Slideshow'
+import { Images } from '../../Themes'
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
@@ -42,27 +43,30 @@ class DesktopContainer extends Component {
   hideFixedMenu () {
     return this.setState({ fixed: false })
   }
+
   showFixedMenu () {
     return this.setState({ fixed: true })
   }
+
   // logoutDialog (isShow) {
   //   console.log('logoutDialog')
   //   this.setState({ showLogoutDialog: isShow })
   // }
   render () {
-    const { children } = this.props
+    const { children, isHome, pathname } = this.props
     const { fixed } = this.state
-    console.log('window=', window)
-    const pathname = (window.location.hash || window.location.pathname).replace(
-      '#',
-      ''
-    )
+    // console.log('window=', window)
+    // console.log('propssss=', this.props)
+    // const pathname = (window.location.hash || window.location.pathname).replace(
+    //   '#',
+    //   ''
+    // )
     // #/entity/participant
-    let isHome =
-      pathname === '/home' ||
-      pathname === '/' ||
-      pathname === '#/' ||
-      pathname === '#/home'
+    // const isHome =
+    //   pathname === '/home' ||
+    //   pathname === '/' ||
+    //   pathname === '#/' ||
+    //   pathname === '#/home'
 
     // isHome = false
     // console.log('pathname=', pathname)
@@ -101,7 +105,7 @@ class DesktopContainer extends Component {
     // )
     // console.log('pathname===>', pathname)
     return (
-      // <Responsive {...Responsive.onlyComputer}>
+    // <Responsive {...Responsive.onlyComputer}>
 
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
         {/* <div><Segment inverted><Container>
@@ -150,7 +154,7 @@ class DesktopContainer extends Component {
               > */}
                 {/* <Container> */}
                 <Menu.Item onClick={() => { window.history.back() }}>
-                  <Icon name='angle left' size={'big'} />
+                  <Icon name='angle left' size="big" />
                 </Menu.Item>
                 <Menu.Item as={Link} to='/admin/dashboard' active={['/admin/dashboard'].indexOf(pathname) !== -1}>Home</Menu.Item>
                 <Menu.Item as={Link} to='/' active={isHome}>Frontend</Menu.Item>
@@ -183,13 +187,13 @@ class DesktopContainer extends Component {
             >
               <div style={{ paddingTop: '1em', borderBottom: '10px solid black', backgroundImage: `url(${Images.headerbg})`, backgroundSize: '100%' }}>
                 <Container style={{}}>
-                  
+
                   <Header as='h2'>
                     {/* <Icon name='settings' /> */}
                     <Image src={Images.adventistlogo} style={{ width: '100px' }} />
-                    <Header.Content style={{color: 'white'}}>
+                    <Header.Content style={{ color: 'white' }}>
                       Prisma SDAC Jakarta
-                      <Header.Subheader style={{color: 'white'}}>Reaching the Soul, Keeping the Soul, Recovering the Soul</Header.Subheader>
+                      <Header.Subheader style={{ color: 'white' }}>Reaching the Soul, Keeping the Soul, Recovering the Soul</Header.Subheader>
                     </Header.Content>
                   </Header>
                 </Container>
@@ -236,7 +240,7 @@ class DesktopContainer extends Component {
                       onLogout={() => this.setState({ sidebarOpened: false })}
                       fixed={fixed}
                     /> */}
-                    
+
                     {/* <Menu.Item position='right'>
                       <Button as='a' inverted={!fixed}>
                       Log in
@@ -248,8 +252,9 @@ class DesktopContainer extends Component {
                   </Container>
                 </Menu>
               </div>
-              {isHome ? <div><Carousel1 /></div> : null}
+              {/* {isHome ? <div><Carousel1 /></div> : null} */}
               {/* {isHome ? <HomepageHeading /> : null} */}
+              <Slideshow />
             </Segment>
           </Visibility>
         )}
@@ -263,7 +268,7 @@ class DesktopContainer extends Component {
 DesktopContainer.propTypes = {
   children: PropTypes.node
 }
-export default DesktopContainer
+// export default DesktopContainer
 // const mapStateToProps = (state) => {
 //   return {
 //     isLoggedIn: LoginSelectors.isLoggedIn(state.login)
@@ -277,4 +282,7 @@ export default DesktopContainer
 //   }
 // }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(DesktopContainer)
+export default connect(state => ({
+  isHome: state.app.isHome,
+  pathname: state.app.pathname,
+}))(DesktopContainer)

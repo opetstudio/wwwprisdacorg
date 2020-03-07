@@ -5,6 +5,7 @@ import StartupActions from '../Redux/StartupRedux'
 import UserActions from './User/redux'
 import ReduxPersist from '../Config/ReduxPersist'
 import LoginActions, { LoginSelectors } from './Login/redux'
+import AppActions from '../Redux/AppRedux'
 import { IntlProvider } from 'react-intl'
 // import en from 'react-intl/locale-data/en'
 import enTranslationMessages from '../Translations/en.json'
@@ -45,9 +46,10 @@ class RootContainer extends Component {
   }
 
   render (messages) {
+    const { appData, getLoginStatus } = this.props
     return (
       <IntlProvider locale='en' messages={translationMessages.en}>
-        <Navigation checkLogedStatus={this.props.getLoginStatus} />
+        <Navigation checkLogedStatus={getLoginStatus} appData={appData} />
       </IntlProvider>
     )
   }
@@ -55,14 +57,15 @@ class RootContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loginToken: LoginSelectors.getToken(state.login)
+    loginToken: LoginSelectors.getToken(state.login),
   }
 }
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = dispatch => ({
   startup: () => dispatch(StartupActions.startup()),
-  getLoginStatus: query => dispatch(LoginActions.loginCheckStatus(query))
+  getLoginStatus: query => dispatch(LoginActions.loginCheckStatus(query)),
+  appData: data => dispatch(AppActions.appData(data))
   // fetchUser: (query) => dispatch(UserActions.userRequest(query))
 })
 

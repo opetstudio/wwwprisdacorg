@@ -105,8 +105,9 @@ import LoginForm from '../Containers/Login/form'
 
 class App extends Component {
   componentWillMount () {
+    const { checkLogedStatus, appData } = this.props
     this.unlisten = this.props.history.listen((location, action) => {
-      // console.log('on route change ', location)
+      console.log('on route change ', location)
       // this.props.onRouteChange(location)
       const loginRestriction = [
         '/about',
@@ -118,13 +119,31 @@ class App extends Component {
         '/profile'
       ]
       if (loginRestriction.indexOf(location.pathname) !== -1) {
-        this.props.checkLogedStatus()
+        checkLogedStatus()
       }
+
+      if(location.pathname === '/' || location.pathname === '/home') appData({ isHome: true, pathname: location.pathname })
+      else appData({ isHome: false, pathname: location.pathname })
     })
+
+    const pathname = (window.location.hash || window.location.pathname).replace(
+      '#',
+      ''
+    )
+    const isHome =
+      pathname === '/home' ||
+      pathname === '/' ||
+      pathname === '#/' ||
+      pathname === '#/home'
+
+    appData({ isHome, pathname })
   }
+
+
   componentWillUnmount () {
     this.unlisten()
   }
+
   render () {
     return <div>{this.props.children}</div>
   }
@@ -136,10 +155,12 @@ class NavigationRouter extends Component {
     // console.log('this.props.location=', this.props.location)
     // console.log('prevProps.location=', prevProps.location)
   }
+
   render () {
+    const { checkLogedStatus, appData } = this.props
     return (
       <Router>
-        <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
+        <AppContainer checkLogedStatus={checkLogedStatus} appData={appData}>
           <ResponsiveContainer>
             <Route exact path='/' component={PrisdacHome} />
             <Route exact path='/home' component={PrisdacHome} />
@@ -150,8 +171,6 @@ class NavigationRouter extends Component {
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
             <Route exact path='/sabatini' component={PageBulletin} />
-
-
 
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />

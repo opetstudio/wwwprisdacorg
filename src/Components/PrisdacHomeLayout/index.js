@@ -10,8 +10,8 @@ import {
   List,
   Divider
 } from 'semantic-ui-react'
-import {Images} from '../../Themes'
-import {Helmet} from 'react-helmet'
+import { Images } from '../../Themes'
+import { Helmet } from 'react-helmet'
 import _ from 'lodash'
 
 class PrisdacHomeLayout extends Component {
@@ -22,6 +22,7 @@ class PrisdacHomeLayout extends Component {
       username: this.props.username
     }
   }
+
   componentWillMount () {
     console.log('componentWillMounts')
     this.setState({
@@ -29,6 +30,7 @@ class PrisdacHomeLayout extends Component {
     })
     this.props.getUserProfile({ username: this.props.username })
   }
+
   componentDidUpdate (prevProps, prevState) {
     if (!_.isEqual(prevProps.username, this.props.username)) {
       this.props.getUserProfile({ username: this.props.username })
@@ -37,8 +39,10 @@ class PrisdacHomeLayout extends Component {
       })
     }
   }
+
   componentDidMount () {
   }
+
   render () {
     return (
       <div>
@@ -76,19 +80,19 @@ class PrisdacHomeLayout extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <Header as='h3'>
-                        <Image onClick={() => window.open('https://www.facebook.com/prismaministryindonesia', '_blank')} src={Images.fbicon} style={{ width: '50%' }} />
+                        <Image onClick={() => window.open('https://www.facebook.com/prismaministryindonesia', '_blank')} src={Images.fbicon} style={{ width: '50%', cursor: 'pointer' }} />
                         <p>Prisma Ministry Indonesia</p>
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
                       <Header as='h3'>
-                        <Image onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} src={Images.igicon} style={{ width: '50%' }} />
+                        <Image onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} src={Images.igicon} style={{ width: '50%', cursor: 'pointer' }} />
                         <p>@prisdac</p>
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
                       <Header as='h3'>
-                        <Image src={Images.youtubeicon} style={{ width: '50%' }} onClick={() => window.open('https://www.youtube.com/channel/UCH-dWCd1ikPDBpMuI5WxNWQ', '_blank')} />
+                        <Image src={Images.youtubeicon} style={{ width: '50%', cursor: 'pointer' }} onClick={() => window.open('https://www.youtube.com/channel/UCQkjV2EgeZV1024KDAdadwg', '_blank')} />
                         <p>prisdacjkt</p>
                       </Header>
                     </Grid.Column>

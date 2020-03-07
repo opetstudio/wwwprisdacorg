@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Container,
   Icon,
@@ -46,7 +47,7 @@ class MobileContainer extends Component {
   handleToggle = () => this.setState({ sidebarOpened: true })
 
   render () {
-    const { children } = this.props
+    const { children, isHome, pathname } = this.props
     const { sidebarOpened } = this.state
 
     // const isHome =
@@ -55,16 +56,16 @@ class MobileContainer extends Component {
     //   (window.location.hash || window.location.pathname).replace('#', '') ===
     //     '/'
 
-    const pathname = (window.location.hash || window.location.pathname).replace(
-      '#',
-      ''
-    )
-    // #/entity/participant
-    const isHome =
-      pathname === '/home' ||
-      pathname === '/' ||
-      pathname === '#/' ||
-      pathname === '#/home'
+    // const pathname = (window.location.hash || window.location.pathname).replace(
+    //   '#',
+    //   ''
+    // )
+    // // #/entity/participant
+    // const isHome =
+    //   pathname === '/home' ||
+    //   pathname === '/' ||
+    //   pathname === '#/' ||
+    //   pathname === '#/home'
 
     // console.log('pathname===>', pathname)
 
@@ -176,4 +177,8 @@ MobileContainer.propTypes = {
   children: PropTypes.node
 }
 
-export default MobileContainer
+// export default MobileContainer
+export default connect(state => ({
+  isHome: state.app.isHome,
+  pathname: state.app.pathname,
+}))(MobileContainer)

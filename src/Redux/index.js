@@ -7,6 +7,7 @@ import ReduxPersist from '../Config/ReduxPersist'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
+    app: require('./AppRedux').reducer,
 
     // begin Ignite-Entity-Product
     product: require('../Containers/Product/redux').reducer,
