@@ -34,12 +34,12 @@ import OpetstudioContact from '../Containers/Opetstudio/Contact'
 
 import PrisdacHome from '../Containers/Prisdac/Home'
 
-import PageEvent from '../Containers/Event/PageEvent'
+import PageEvent from '../Pages/PageEvent'
 import PageEventDetail from '../Containers/Event/PageEventDetail'
 import PageArticle from '../Containers/Article/PageArticle'
 import PageNews from '../Containers/News/PageNews'
 import PageGallery from '../Containers/Gallery/PageGallery'
-import PageAlbum from '../Containers/Album/PageAlbum'
+import PageAlbum from '../Pages/PageAlbum'
 import PageBulletin from '../Containers/Bulletin/PageBulletin'
 
 // ADMIN

@@ -4,7 +4,8 @@ import {
   Grid,
   Container,
   Header,
-  Image
+  Image,
+  Pagination
 } from 'semantic-ui-react'
 import Immutable from 'seamless-immutable'
 import _ from 'lodash'

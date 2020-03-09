@@ -8,7 +8,8 @@ import {
   Button,
   Container,
   List,
-  Divider
+  Divider,
+  Pagination
 } from 'semantic-ui-react'
 import {Helmet} from 'react-helmet'
 import Immutable from 'seamless-immutable'
@@ -17,35 +18,16 @@ import _ from 'lodash'
 import BreadcrumbCustom from '../BreadcrumbCustom'
 
 class AlbumLayout extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      activeItemBottomMenu: '1',
-      breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
-    }
-  }
-  componentWillMount () {
-    // console.log('componentWillMounts')
-    this.setState({
-      username: this.props.username
-    })
-  }
-  componentDidUpdate (prevProps, prevState) {
-    if (!_.isEqual(prevProps.breadcrumb, this.props.breadcrumb)) {
-      this.setState({
-        breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
-      })
-    }
-  }
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      accessToken: nextProps.username
-    })
-  }
-  componentDidMount () {
-  }
   render () {
-    // console.log('albumsss===>', this.props.allDataArr)
+    const {
+      handleOnPageChange,
+      defaultActivePage,
+      totalPages,
+      breadcrumb,
+      allDataArr,
+      history,
+      footer
+    } = this.props
     return (
       <div>
         <Helmet>
@@ -53,25 +35,34 @@ class AlbumLayout extends Component {
         </Helmet>
         <Container style={{minHeight: window.innerHeight - 75}}>
           <Grid container style={{ padding: '1em 0em' }}>
-            {this.state.breadcrumb && (
+            {breadcrumb && (
               <Grid.Row>
                 <Grid.Column>
-                  <BreadcrumbCustom breadcrumb={this.state.breadcrumb} />
+                  <BreadcrumbCustom breadcrumb={breadcrumb} />
                 </Grid.Column>
               </Grid.Row>
             )}
             <Grid.Row>
               <Grid.Column>
                 {
-                  (this.props.allDataArr).map(r => {
+                  (allDataArr).map(r => {
                     return (
-                      <div key={r._id} onClick={() => this.props.history.push('/gallery/' + r._id)}>
+                      <div key={r._id} onClick={() => history.push('/gallery/' + r._id)}>
                         <Image src={r.data_src} size='tiny' verticalAlign='middle' /> <span>{r.album_title}</span>
                         <Divider />
                       </div>
                     )
                   })
                 }
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row textAlign='center'>
+              <Grid.Column>
+                <Pagination
+                  defaultActivePage={defaultActivePage}
+                  totalPages={10}
+                  onPageChange={handleOnPageChange}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -81,7 +72,7 @@ class AlbumLayout extends Component {
             <ImageGallery items={images} showIndex showBullets thumbnailPosition='left' />
           </Container>
         </Segment> */}
-        {this.props.footer}
+        {footer}
       </div>
     )
   }
